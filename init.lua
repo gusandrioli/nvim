@@ -11,11 +11,6 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.smartindent = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.softtabstop = 4
-
 local lazy_config = require "configs.lazy"
 
 -- load plugins
@@ -42,3 +37,17 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Function to set indentation for Go files
+local set_go_indent = function()
+    vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.softtabstop = 4
+    vim.bo.expandtab = false -- Go generally uses tabs for indentation
+end
+
+-- Auto command to apply the settings when opening Go files
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "go",
+    callback = set_go_indent,
+})
